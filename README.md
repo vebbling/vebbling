@@ -31,16 +31,7 @@ $ ln -s $(pwd)/valval ~/.vmodules/valval
 ```
 
 ### Using VPM
-Watchmen123456 has registered the module with vpm. 
-Simply use the following if you have v on your PATH variable:
-``` bash
-$ v install watchmen123456.valval
-```
-
-***Note***: If you use vpm; you'll have to change the import to:
-```
-import watchmen123456.valval
-```
+Temporarily not available due to module submission to VPM is down
 
 ## Quickstart
 
