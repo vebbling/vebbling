@@ -7,16 +7,16 @@ This means you can __develop__ a website ___quickly___ and __run__ it ___even fa
 ##### A simple demo:
 
 ```v
-import valval
+import vebbling
 
-fn hello(req valval.Request) valval.Response {
-	return valval.response_ok('hello world')
+fn hello(req vebbling.Request) vebbling.Response {
+	return vebbling.response_ok('hello world')
 }
 
 fn main() {
-	mut app := valval.new_app(true)
+	mut app := vebbling.new_app(true)
 	app.route('/', hello)
-	valval.runserver(app, 8012)
+	vebbling.runserver(app, 8012)
 }
 ```
 
@@ -25,9 +25,9 @@ fn main() {
 
 ### Using Git
 ```
-$ git clone https://github.com/taojy123/valval
+$ git clone https://github.com/vebbling/vebbling
 $ mkdir -p ~/.vmodules
-$ ln -s $(pwd)/valval ~/.vmodules/valval 
+$ ln -s $(pwd)/vebbling ~/.vmodules/vebbling 
 ```
 
 ### Using VPM
@@ -43,16 +43,16 @@ A minimal Vebbling application looks something like this:
 
 module main
 
-import valval
+import vebbling
 
-fn hello(req valval.Request) valval.Response {
-	return valval.response_ok('hello world')
+fn hello(req vebbling.Request) vebbling.Response {
+	return vebbling.response_ok('hello world')
 }
 
 fn main() {
-	mut app := valval.new_app(true)
+	mut app := vebbling.new_app(true)
 	app.route('/', hello)
-	valval.runserver(app, 8012)
+	vebbling.runserver(app, 8012)
 }
 ```
 
@@ -69,21 +69,21 @@ hello world
 
 ### Debug Mode
 
-You can decide whether to use debug mode when calling `valval.new_app()`
+You can decide whether to use debug mode when calling `vebbling.new_app()`
 ```v
-mut app := valval.new_app(true)  // debug mode
-mut app := valval.new_app(false) // production mode
+mut app := vebbling.new_app(true)  // debug mode
+mut app := vebbling.new_app(false) // production mode
 ```
 debug mode will print out more infomation while app running
 
 ### Service Port
 
-You can decide the service port number when calling the `valval.runserver()`
+You can decide the service port number when calling the `vebbling.runserver()`
 ```v
-valval.runserver(app, 8012)  // listening 8012 port
-valval.runserver(app, 80)    // listening 80 port
+vebbling.runserver(app, 8012)  // listening 8012 port
+vebbling.runserver(app, 80)    // listening 80 port
 ```
-The valval server will bind `0.0.0.0` address, so you can visit the website by `127.0.0.1:Port` or `ServerIp:Port`
+The vebbling server will bind `0.0.0.0` address, so you can visit the website by `127.0.0.1:Port` or `ServerIp:Port`
 
 ### Routing
 
@@ -92,7 +92,7 @@ Use the `App.route()` function to band a handler function to request path
 The handler function should have a parameter of type `Request` and return a `Response`
 
 ```v
-mut app := valval.new_app(true)
+mut app := vebbling.new_app(true)
 
 app.route('/', hello)   		         // http://127.0.0.1
 
@@ -105,43 +105,43 @@ app.route('/book', function5)         // http://127.0.0.1/book by other methods
 
 app.route('*', function6)   		     // all remain
 
-valval.runserver(app, 80)
+vebbling.runserver(app, 80)
 ```
 
 ### Accessing Request Data
 
 Currently, only the following data can be parsed:
 
-- query parameters by GET request; by `valval.Request.query[xxx]`
-- `x-www-form-urlencoded` parameters by POST / PUT / PATCH request; by `valval.Request.form[xxx]`
+- query parameters by GET request; by `vebbling.Request.query[xxx]`
+- `x-www-form-urlencoded` parameters by POST / PUT / PATCH request; by `vebbling.Request.form[xxx]`
 
 ```v
-fn hello(req valval.Request) valval.Response {
+fn hello(req vebbling.Request) vebbling.Response {
 	mut name = request.query['name']
 	if name == '' {
 		name = 'world'
 	}
-	return valval.response_ok('hello $name')
+	return vebbling.response_ok('hello $name')
 }
 
-fn post_hello(req valval.Request) valval.Response {
+fn post_hello(req vebbling.Request) vebbling.Response {
 	mut name = request.form['name']
 	if name == '' {
 		name = 'world'
 	}
-	return valval.response_ok('hello $name')
+	return vebbling.response_ok('hello $name')
 }
 
 app.route('GET:/hello', hello)
 app.route('POST:/hello', post_hello)
 ```
 
-`valval.Request.get()` provides a quick way to get data whether it is from `query` or `form`. 
+`vebbling.Request.get()` provides a quick way to get data whether it is from `query` or `form`. 
 
 ```v
-fn hello(req valval.Request) valval.Response {
+fn hello(req vebbling.Request) vebbling.Response {
 	name = request.get('name', 'world')  // default: 'world'
-	return valval.response_ok('hello $name')
+	return vebbling.response_ok('hello $name')
 }
 
 app.route('/hello', hello)
@@ -155,10 +155,10 @@ More types of request data will be supported in the future:
 
 ### Static Files
 
-Use `valval.App.serve_static` to serve local files
+Use `vebbling.App.serve_static` to serve local files
 
 ```v
-mut app := valval.new_app(true)
+mut app := vebbling.new_app(true)
 
 app.serve_static('/static/', './relative/path/to/static/')  
 // visit http://127.0.0.1/static/xxx.js ...
@@ -166,7 +166,7 @@ app.serve_static('/static/', './relative/path/to/static/')
 app.serve_static('/static2/', '/absolute/path/to/static2/') 
 // visit http://127.0.0.1/static2/yyy.css ...
 
-valval.runserver(app, 80)
+vebbling.runserver(app, 80)
 ```
 
 ### Rendering Templates
@@ -185,7 +185,7 @@ An example for template:
 `server.v`:
 
 ```v
-import valval
+import vebbling
 import json
 
 struct User {
@@ -194,12 +194,12 @@ struct User {
 	sex bool
 }
 
-fn users(req valval.Request) valval.Response {
+fn users(req vebbling.Request) vebbling.Response {
 
 	// create a view by template file (`test6.html` can be a relative or absolute path)
 	// use `element` (https://github.com/ElemeFE/element) as ui framework
-	mut view := valval.new_view(req, 'users.html', 'element') or {
-		return valval.response_bad(err)
+	mut view := vebbling.new_view(req, 'users.html', 'element') or {
+		return vebbling.response_bad(err)
 	}
 
 	users := [
@@ -214,7 +214,7 @@ fn users(req valval.Request) valval.Response {
 	view.set('users', json.encode(users))
 	view.set('msg', json.encode(msg))
 
-	return valval.response_view(view)
+	return vebbling.response_view(view)
 }
 ```
 
@@ -240,15 +240,15 @@ fn users(req valval.Request) valval.Response {
 
 ### Redirects
 
-Use `valval.response_redirect()` to generate a redirect response
+Use `vebbling.response_redirect()` to generate a redirect response
 
 ```v
-fn test1(req valval.Request) valval.Response {
+fn test1(req vebbling.Request) vebbling.Response {
 	name = req.get('name', '')
 	if name == '' {
-		return valval.response_redirect('/not_found')
+		return vebbling.response_redirect('/not_found')
 	}
-	return valval.response_ok('hello $name')
+	return vebbling.response_ok('hello $name')
 }
 ```
 
@@ -265,29 +265,29 @@ struct User {
 	sex bool
 }
 
-fn text(req valval.Request) valval.Response {
-	return valval.response_text('this is plain text response')
+fn text(req vebbling.Request) vebbling.Response {
+	return vebbling.response_text('this is plain text response')
 }
 
-fn json(req valval.Request) valval.Response {
+fn json(req vebbling.Request) vebbling.Response {
 	user = User{'Tom', 12, true}
-	return valval.response_json(user)
+	return vebbling.response_json(user)
 	// -> {"name": "Tom", "age": 12, "sex": true}
 }
 
-fn json_str(req valval.Request) valval.Response {
+fn json_str(req vebbling.Request) vebbling.Response {
 	user = User{'Tom', 12, true}
 	user_str = json.encode(user)
-	return valval.response_json_str(user_str)
+	return vebbling.response_json_str(user_str)
 	// -> {"name": "Tom", "age": 12, "sex": true}
 }
 
-fn file(req valval.Request) valval.Response {
-	return valval.response_file('path/to/local/file')
+fn file(req vebbling.Request) vebbling.Response {
+	return vebbling.response_file('path/to/local/file')
 }
 
-fn bad(req valval.Request) valval.Response {
-	return valval.response_bad('Parameter error!')
+fn bad(req vebbling.Request) vebbling.Response {
+	return vebbling.response_bad('Parameter error!')
 	// response with statu code 400
 }
 
@@ -297,26 +297,17 @@ fn bad(req valval.Request) valval.Response {
 
 ## Complete Example
 
-- You can visit https://github.com/taojy123/valval/tree/master/example to see the complete example.
-- And the official website of valval (https://valval.cool) is also written with the valval framework: https://github.com/taojy123/valval_website
-
-
+- You can visit https://github.com/vebbling/vebbling/tree/master/example to see the complete example.
 
 ## Install V Language
 
-Vebbling framework currently supports the `V language` version is `0.1.24`
+Vebbling framework currently supports the `V language` version is `0.1.29`
 
 Here are some ways to install V:
 
 ### 1. Download a prebuilt V package
 
 Visit official home page https://vlang.io/ to download
-
-
-### 2. Run V in docker [recommand]
-
-```
-docker run -it -p 8012:8012 --name vlang taojy123/vlang bash
 ```
 It includes OpenSSL
 
@@ -335,14 +326,6 @@ $ brew install openssl
 Debian/Ubuntu:
 $ sudo apt install libssl-dev openssl ca-certificates
 ```
-Windows (Win10 Verified):
-Source can be downloaded from: 
-* https://www.openssl.org/source/
-* https://github.com/openssl/
-
-You can find a [Graphic installer](https://slproweb.com/products/Win32OpenSSL.html "32 and 64 bit available") if that's more to you're liking.
-
-
 ## Thanks to!
 
-[Valval](https://github.com/taojy123/valval) from which this project is forked. taojy123 has made an awesome job with Valval.
+[valval](https://github.com/taojy123/valval) from which this project is forked. taojy123 has made an awesome job with valval.
