@@ -1,6 +1,6 @@
-# Valval
+# Vebbling
 
-Valval is the fastest web framework in V language. 
+Vebbling is the fastest web framework in V language. 
 
 This means you can __develop__ a website ___quickly___ and __run__ it ___even faster___!
 
@@ -46,7 +46,7 @@ import watchmen123456.valval
 
 ### A Minimal Application
 
-A minimal Valval application looks something like this:
+A minimal Vebbling application looks something like this:
 ```v
 // demo.v
 
@@ -180,7 +180,7 @@ valval.runserver(app, 80)
 
 ### Rendering Templates
 
-Valval used a whole new idea to implement the template function; inspired by [Vue's](https://github.com/vuejs/vue) system.
+Vebbling used a whole new idea to implement the template function; inspired by [Vue's](https://github.com/vuejs/vue) system.
 
 Has the following advantages:
 
@@ -265,7 +265,7 @@ fn test1(req valval.Request) valval.Response {
 
 In addition to the responses mentioned above (`response_ok`,  `response_view`, `response_redirect`)
 
-Valval also provides other response types, as follows:
+Vebbling also provides other response types, as follows:
 
 ```v
 struct User {
@@ -313,7 +313,7 @@ fn bad(req valval.Request) valval.Response {
 
 ## Install V Language
 
-Valval framework currently supports the `V language` version is `0.1.24`
+Vebbling framework currently supports the `V language` version is `0.1.24`
 
 Here are some ways to install V:
 
@@ -352,3 +352,6 @@ Source can be downloaded from:
 You can find a [Graphic installer](https://slproweb.com/products/Win32OpenSSL.html "32 and 64 bit available") if that's more to you're liking.
 
 
+## Thanks to!
+
+[Valval](https://github.com/taojy123/valval) from which this project is forked. taojy123 has made an awesome job with Valval.
