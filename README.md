@@ -1,6 +1,6 @@
 # Vebbling
 
-Vebbling is the fastest web framework in V language. 
+Vebbling aims to be the best web framework in V language. 
 
 This means you can __develop__ a website ___quickly___ and __run__ it ___even faster___!
 

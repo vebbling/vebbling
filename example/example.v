@@ -1,12 +1,12 @@
 module main
 
-// git clone https://github.com/toajy123/valval
-// ln -s $(pwd)/valval ~/.vmodules/valval  [or v build module ./valval]
-// cd valval/example && v run example.v
+// git clone https://github.com/vebbling/vebbling
+// ln -s $(pwd)/vebbling ~/.vmodules/vebbling  [or v build module ./vebbling]
+// cd vebbling/example && v run example.v
 // 
 // curl http://127.0.0.1:8012
 
-import valval
+import vebbling
 import json
 
 
@@ -22,34 +22,34 @@ struct Book {
 }
 
 
-fn index(req valval.Request) valval.Response {
-	return valval.response_redirect('/test6')
+fn index(req vebbling.Request) vebbling.Response {
+	return vebbling.response_redirect('/test6')
 }
 
-fn hello(req valval.Request) valval.Response {
-	return valval.response_ok('hello world')
+fn hello(req vebbling.Request) vebbling.Response {
+	return vebbling.response_ok('hello world')
 }
 
-fn test1(req valval.Request) valval.Response {
+fn test1(req vebbling.Request) vebbling.Response {
 	name := req.query['name']
 	content := 'test1: name = $name'
-	res := valval.response_text(content)
+	res := vebbling.response_text(content)
 	return res
 }
 
-fn test2(req valval.Request) valval.Response {
+fn test2(req vebbling.Request) vebbling.Response {
 	method := req.method
 	if method == 'DELETE' {
-		return valval.response_bad('can not delete data!')
+		return vebbling.response_bad('can not delete data!')
 	}
 	name := req.get('name', 'jim')
 	content := '$method: name = $name'
-	mut res := valval.response_text(content)
+	mut res := vebbling.response_text(content)
 	res.set_header('x-test-key', 'test-value')
 	return res
 }
 
-fn test3(req valval.Request) valval.Response {
+fn test3(req vebbling.Request) vebbling.Response {
 	name := req.get('name', 'lily')
 	age := req.get('age', '18')
 	sex_str := req.get('sex', '0')
@@ -58,30 +58,30 @@ fn test3(req valval.Request) valval.Response {
 		sex = false
 	}
 	user := User{name, age.int(), sex}
-	res := valval.response_json(user)
+	res := vebbling.response_json(user)
 	return res
 }
 
-fn test4(req valval.Request) valval.Response {
-	res := valval.response_file('template/test4.html')
+fn test4(req vebbling.Request) vebbling.Response {
+	res := vebbling.response_file('template/test4.html')
 	return res
 }
 
-fn post_test4(req valval.Request) valval.Response {
+fn post_test4(req vebbling.Request) vebbling.Response {
 	name := req.form['name']
 	age := req.form['age']
 	url := '/test3/?name=$name&age=$age'
-	return valval.response_redirect(url)
+	return vebbling.response_redirect(url)
 }
 
-fn test5(req valval.Request) valval.Response {
-	return valval.response_file('template/test5.html')
+fn test5(req vebbling.Request) vebbling.Response {
+	return vebbling.response_file('template/test5.html')
 }
 
-fn test6(req valval.Request) valval.Response {
-	mut view := valval.new_view(req, 'template/test6.html', 'element')
+fn test6(req vebbling.Request) vebbling.Response {
+	mut view := vebbling.new_view(req, 'template/test6.html', 'element')
 	if view.error != '' {
-		return valval.response_bad(view.error)
+		return vebbling.response_bad(view.error)
 	}
 	if req.is_page() {
 		println('a user is viewing the test6 page')
@@ -98,13 +98,13 @@ fn test6(req valval.Request) valval.Response {
 		view.set('users', json.encode(users))
 		view.set('total_count', json.encode(total_count))
 	}
-	return valval.response_view(view)
+	return vebbling.response_view(view)
 }
 
 
 fn main() {
 
-	mut app := valval.new_app(true)
+	mut app := vebbling.new_app(true)
 
 	app.serve_static('/static/', './static/')
 
@@ -120,7 +120,7 @@ fn main() {
 	
 	// app.route('*', index)
 
-	valval.runserver(app, 8012)
+	vebbling.runserver(app, 8012)
 
 }
 

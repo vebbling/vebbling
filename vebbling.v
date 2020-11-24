@@ -1,5 +1,5 @@
 
-module valval
+module vebbling
 
 import net
 import net.urllib
@@ -16,7 +16,7 @@ const (
 	HTTP_413 = 'HTTP/1.1 413 Request Entity Too Large\r\nContent-Type: text/plain\r\n\r\n413 Request Entity Too Large'
 	HTTP_500 = 'HTTP/1.1 500 Internal Server Error\r\nContent-Type: text/plain\r\n\r\n500 Internal Server Error'
 	POST_BODY_LIMIT = 1024 * 1024 * 20  // 20MB
-	API_KEY_FLAG = 'valvalapikey'  		// the param name won't be used anywhere else
+	API_KEY_FLAG = 'vebblingapikey'  		// the param name won't be used anywhere else
 )
 
 // ===== structs ======
@@ -131,7 +131,7 @@ fn (view View) get(key string) string {
 
 pub struct App {
 	pub:
-		name string = 'ValvalApp'
+		name string = 'VebblingApp'
 		debug bool = true
 		run_ts int = 0
 	mut:
@@ -226,7 +226,7 @@ pub fn (server Server) run() {
     println('${app.name} running on http://$server.address:$server.port ...')
 	println('Working in: ${os.getwd()}')
 	println('Server OS: ${os.user_os()}, Debug: ${app.debug}')
-	println('Valval version: $VERSION, support V version: $V_VERSION')
+	println('Vebbling version: $VERSION, support V version: $V_VERSION')
 	
     // listener := net.listen(server.port) or { panic('failed to listen') }
     for {
@@ -477,7 +477,7 @@ pub fn new_view(req Request, template string, ui string) View{
 		}
 		content = file_content
 
-		mut top := '<body>\n<!-- created by valval -->\n<div id="valapp" style="display: none">\n'
+		mut top := '<body>\n<!-- created by vebbling -->\n<div id="valapp" style="display: none">\n'
 		top += '<div v-if="loading"> <p v-if="fail">Load failed, please check the network.</p><p v-else>loading...</p> </div>'
 		top += '<div v-else>'
 		content = content.replace_once('<body>', top)
